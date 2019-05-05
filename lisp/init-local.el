@@ -1,4 +1,10 @@
+;;; init-local.el --- Summary
+;;; Commentary:
+;;; Code:
+
 (require 'info)
+
+;;; mu4e config
 
 (if *is-a-mac*
     (progn
@@ -25,6 +31,7 @@
       mu4e-view-fields '(:from :to :cc :subject :date :attachments)
       mu4e-view-scroll-to-next nil
       mu4e-view-show-addresses t
+      mu4e-view-use-gnus t
       mu4e-user-mail-address-list '("theophilusx@gmail.com"
                                     "tcross8@une.edu.au"
                                     "tcross@une.edu.au"
@@ -137,6 +144,8 @@
 
 (add-hook 'message-mode-hook 'turn-on-orgtbl)
 
+;;; set default font
+
 (if *is-a-mac*
     (set-face-attribute 'default nil
                         :foundry nil
@@ -148,7 +157,19 @@
                       :height 230))
 
 
+;;; browse-url
+
+(require 'browse-url)
+
+(if *is-a-mac*
+    ;; (setq browse-url-browser-function 'browse-url-default-macosx-browser)
+    (setq browse-url-browser-function 'eww-browse-url)
+  (setq browse-url-browser-function 'eww-browse-url))
+
+(maybe-require-package 'highlight-indentation)
+
+(after-load 'highlight-indentation
+  (add-hook 'prog-mode-hook #'highlight-indentation-current-column-mode))
+
 (provide 'init-local)
-
-
 ;;; init-local.el ends here
