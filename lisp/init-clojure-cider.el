@@ -11,11 +11,7 @@
     (add-hook 'cider-repl-mode-hook 'subword-mode)
     (add-hook 'cider-repl-mode-hook 'paredit-mode))
 
-  (require-package 'flycheck-clojure)
-  (after-load 'clojure-mode
-    (after-load 'cider
-      (after-load 'flycheck
-        (flycheck-clojure-setup)))))
+  (require-package 'flycheck-joker))
 
 
 (provide 'init-clojure-cider)

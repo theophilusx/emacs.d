@@ -1,4 +1,10 @@
+;;; init-local.el --- Summary
+;;; Commentary:
+;;; Code:
+
 (require 'info)
+
+;;; mu4e config
 
 (if *is-a-mac*
     (progn
@@ -26,7 +32,9 @@
       mu4e-compose-context-policy nil
       mu4e-view-fields '(:from :to :cc :subject :date :attachments)
       mu4e-view-scroll-to-next nil
+      mu4e-view-use-gnus t
       mu4e-view-show-addresses t
+      mu4e-view-use-gnus t
       mu4e-user-mail-address-list '("theophilusx@gmail.com"
                                     "tcross8@une.edu.au"
                                     "tcross@une.edu.au"
@@ -90,25 +98,28 @@
           :match-func
           (lambda (msg)
             (when msg
-              (mu4e-message-contact-field-matches msg :to "tcross8@une.edu.au")))
-          :vars '((user-mail-address . "tcross8@une.edu.au")
-                  (user-full-name . "Tim Cross")
-                  (mu4e-compose-signature . (concat
-                                             "Tim Cross\n"
-                                             "DBA/Developer - Livestock App Building\n"
-                                             "School of Science and Technology\n"
-                                             "Room 253 Booth Block (C027), Univrsity of New England\n"))
-                  (mu4e-drafts-folder . "/sheep/Drafts")
-                  (mu4e-sent-folder . "/sheep/Sent Items")
-                  (mu4e-trash-folder . "/sheep/Deleted Items")
-                  (mu4e-refile-folder . "/sheep/Archive")
-                  (mu4e-maildir-shortcuts . (("/sheep/INBOX" . ?i)
-                                             ("/sheep/Sent Items" . ?s)
-                                             ("/sheep/Archive" . ?a)
-                                             ("/sheep/Drafts" . ?d)))
-                  (smtpmail-smtp-server . "mailhub.une.edu.au")
-                  (smtpmail-smtp-service . 25)
-                  (mu4e-sent-messages-behavior . sent)))
+              (mu4e-message-contact-field-matches
+               msg :to "tcross8@une.edu.au")))
+          :vars
+          '((user-mail-address . "tcross8@une.edu.au")
+            (user-full-name . "Tim Cross")
+            (mu4e-compose-signature
+             . (concat
+                "Tim Cross\n"
+                "DBA/Developer - Livestock App Building\n"
+                "School of Science and Technology\n"
+                "Room 253 Booth Block (C027), Univrsity of New England\n"))
+            (mu4e-drafts-folder . "/sheep/Drafts")
+            (mu4e-sent-folder . "/sheep/Sent Items")
+            (mu4e-trash-folder . "/sheep/Deleted Items")
+            (mu4e-refile-folder . "/sheep/Archive")
+            (mu4e-maildir-shortcuts . (("/sheep/INBOX" . ?i)
+                                       ("/sheep/Sent Items" . ?s)
+                                       ("/sheep/Archive" . ?a)
+                                       ("/sheep/Drafts" . ?d)))
+            (smtpmail-smtp-server . "mailhub.une.edu.au")
+            (smtpmail-smtp-service . 25)
+            (mu4e-sent-messages-behavior . sent)))
         ,(make-mu4e-context
           :name "Outlook"
           :enter-func
@@ -121,23 +132,27 @@
           :match-func
           (lambda (msg)
             (when msg
-              (mu4e-message-contact-field-matches msg :to "blind-bat@hotmail.com")))
-          :vars '((user-mail-address . "blind-bat@hotmail.com")
-                  (user-full-name . "Tim Cross")
-                  (mu4e-compose-signature . (concat "Tim Cross\n"))
-                  (mu4e-drafts-folder . "/outlook/Drafts")
-                  (mu4e-sent-folder . "/outlook/Sent Mail")
-                  (mu4e-trash-folder . "/outlook/Deleted Items")
-                  (mu4e-refile-folder . "/outlook/Archive")
-                  (mu4e-maildir-shortcuts . (("/outlook/INBOX" . ?i)
-                                             ("/outlook/Sent Mail" . ?s)
-                                             ("/outlook/Archive" . ?a)
-                                             ("/outlook/Drafts" . ?d)))
-                  (smtpmail-smtp-server . "smtp-mail.outlook.com")
-                  (smtpmail-smtp-service . 587)
-                  (mu4e-sent-messages-behavior . delete)))))
+              (mu4e-message-contact-field-matches
+               msg :to "blind-bat@hotmail.com")))
+          :vars
+          '((user-mail-address . "blind-bat@hotmail.com")
+            (user-full-name . "Tim Cross")
+            (mu4e-compose-signature . (concat "Tim Cross\n"))
+            (mu4e-drafts-folder . "/outlook/Drafts")
+            (mu4e-sent-folder . "/outlook/Sent Mail")
+            (mu4e-trash-folder . "/outlook/Deleted Items")
+            (mu4e-refile-folder . "/outlook/Archive")
+            (mu4e-maildir-shortcuts . (("/outlook/INBOX" . ?i)
+                                       ("/outlook/Sent Mail" . ?s)
+                                       ("/outlook/Archive" . ?a)
+                                       ("/outlook/Drafts" . ?d)))
+            (smtpmail-smtp-server . "smtp-mail.outlook.com")
+            (smtpmail-smtp-service . 587)
+            (mu4e-sent-messages-behavior . delete)))))
 
 (add-hook 'message-mode-hook 'turn-on-orgtbl)
+
+;;; set default font size
 
 (if *is-a-mac*
     (set-face-attribute 'default nil
@@ -147,10 +162,21 @@
   (set-face-attribute 'default nil
                       :foundry "PfEd"
                       :family "Ricty Diminished"
-                      :height 230))
+                      :height 240))
 
+;;; browse-url
+
+(require 'browse-url)
+
+(if *is-a-mac*
+    ;; (setq browse-url-browser-function 'browse-url-default-macosx-browser)
+    (setq browse-url-browser-function 'eww-browse-url)
+  (setq browse-url-browser-function 'eww-browse-url))
+
+(maybe-require-package 'highlight-indentation)
+
+(after-load 'highlight-indentation
+  (add-hook 'prog-mode-hook #'highlight-indentation-current-column-mode))
 
 (provide 'init-local)
-
-
 ;;; init-local.el ends here
