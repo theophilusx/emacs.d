@@ -9,8 +9,10 @@
 
 (add-to-list 'load-path (expand-file-name mu4e-lisp))
 (add-to-list 'Info-additional-directory-list (expand-file-name mu4e-info))
+(add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
 
 (require 'mu4e)
+(require 'emacspeak-mu4e)
 
 (setq tx-gmail-email "theophilusx@gmail.com"
       tx-sheepcrc-email "tcross8@une.edu.au"
